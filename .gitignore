@@ -1,0 +1,4 @@
+*.sw?
+.gradle/
+build/
+tags
