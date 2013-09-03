@@ -19,6 +19,40 @@ public class SlottedHistogramTest
         assertEquals(2, hist.quantile(0.4f));
         assertEquals(3, hist.quantile(0.6f));
         assertEquals(4, hist.quantile(0.8f));
-        //assertEquals(5, hist.quantile(1.0f));
+        assertEquals(5, hist.quantile(1.0f));
+    }
+
+    @Test
+    public void overflow() {
+        Splits splits = Splits.newInstance(0, 1, 2, 3, 4, 5);
+        SlottedHistogram hist = new SlottedHistogram(splits);
+        hist.offer(5);
+        hist.offer(5);
+        hist.offer(5);
+        hist.offer(5);
+        hist.offer(5);
+        assertEquals(5, hist.quantile(0f));
+        assertEquals(5, hist.quantile(0.2f));
+        assertEquals(5, hist.quantile(0.4f));
+        assertEquals(5, hist.quantile(0.6f));
+        assertEquals(5, hist.quantile(0.8f));
+        assertEquals(5, hist.quantile(1.0f));
+    }
+
+    @Test
+    public void underflow() {
+        Splits splits = Splits.newInstance(0, 1, 2, 3, 4, 5);
+        SlottedHistogram hist = new SlottedHistogram(splits);
+        hist.offer(-1);
+        hist.offer(-1);
+        hist.offer(-1);
+        hist.offer(-1);
+        hist.offer(-1);
+        assertEquals(0, hist.quantile(0f));
+        assertEquals(0, hist.quantile(0.2f));
+        assertEquals(0, hist.quantile(0.4f));
+        assertEquals(0, hist.quantile(0.6f));
+        assertEquals(0, hist.quantile(0.8f));
+        assertEquals(5, hist.quantile(1.0f));
     }
 }

@@ -19,7 +19,7 @@ public class Splits
     }
 
     public long getOverValue() {
-        return this.splits[this.splits.length - 1] + 1;
+        return this.splits[this.splits.length - 1];
     }
 
     public int getIndex(long value) {
@@ -43,7 +43,7 @@ public class Splits
         int start = 0;
         int end = splits.length - 1;
         if (value < splits[start]) {
-            return -1;
+            return 0;
         } else if (value >= splits[end]) {
             return splits.length;
         }
